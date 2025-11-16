@@ -57,17 +57,13 @@ interface AdminPanelProps {
   onUpdateStock: (id: string, amount: number) => void;
   products: Product[];
   onResetSales: () => void;
-  onGetSuggestion: () => void;
-  isSuggestionLoading: boolean;
 }
 
 export const AdminPanel: React.FC<AdminPanelProps> = ({ 
     onAddProduct, 
     onUpdateStock, 
     products, 
-    onResetSales, 
-    onGetSuggestion,
-    isSuggestionLoading
+    onResetSales,
 }) => {
   const [newProductName, setNewProductName] = useState('');
   const [newProductCategory, setNewProductCategory] = useState('');
@@ -136,14 +132,6 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
           </div>
            <button onClick={onResetSales} className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-500 dark:hover:bg-blue-600 focus:outline-none dark:focus:ring-blue-800">
              Start New Day (Reset Sales)
-           </button>
-           <button onClick={onGetSuggestion} disabled={isSuggestionLoading} className="w-full flex justify-center items-center space-x-2 text-white bg-purple-600 hover:bg-purple-700 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-purple-500 dark:hover:bg-purple-600 focus:outline-none dark:focus:ring-purple-800 disabled:opacity-50 disabled:cursor-not-allowed">
-            {isSuggestionLoading ? (
-                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-            ) : (
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456Z" /></svg>
-            )}
-            <span>Suggest Daily Special</span>
            </button>
         </div>
       </div>

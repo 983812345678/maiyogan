@@ -1,5 +1,5 @@
 {
   "name": "Copy of Maiyogan Bakery Inventory",
-  "description": "A daily inventory and sales management application for Maiyogan Bakery. It allows admins to track stock, sales, profits, and export daily reports. It also includes an AI-powered feature to suggest daily specials based on inventory.",
+  "description": "A daily inventory and sales management application for Maiyogan Bakery. It allows admins to track stock, sales, profits, and export daily reports.",
   "requestFramePermissions": []
 }

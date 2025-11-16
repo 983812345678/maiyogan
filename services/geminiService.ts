@@ -2,19 +2,22 @@
 import { GoogleGenAI } from '@google/genai';
 import { Product } from '../types';
 
-// IMPORTANT: Do not expose this key publicly in a real application.
-// This should be handled via environment variables on a server.
+// IMPORTANT: This should be handled via environment variables on a server.
 // We assume `process.env.API_KEY` is configured in the execution environment.
-const apiKey = process.env.API_KEY;
+const apiKey = (typeof process !== 'undefined' && process.env) ? process.env.API_KEY : undefined;
 
-if (!apiKey) {
+// Only initialize the AI client if the API key is available.
+// This prevents the application from crashing on startup if the key is missing.
+let ai: GoogleGenAI | null = null;
+if (apiKey) {
+  ai = new GoogleGenAI({ apiKey });
+} else {
   console.warn("API_KEY environment variable not set. Gemini API features will be disabled.");
 }
 
-const ai = new GoogleGenAI({ apiKey: apiKey! });
-
 export const suggestDailySpecial = async (products: Product[]): Promise<string> => {
-  if (!apiKey) {
+  // If the AI client was not initialized, return an informative message.
+  if (!ai) {
     return "Gemini API key is not configured. This feature is unavailable.";
   }
 

@@ -6,9 +6,6 @@ import { Header } from './components/Header';
 import { useInventory } from './hooks/useInventory';
 import { AdminPanel } from './components/AdminPanel';
 import { Summary } from './components/Summary';
-import { SuggestionModal } from './components/SuggestionModal';
-import { suggestDailySpecial } from './services/geminiService';
-import { Product } from './types';
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
@@ -21,10 +18,6 @@ const App: React.FC = () => {
     deleteProduct
   } = useInventory();
   
-  const [isSuggestionModalOpen, setSuggestionModalOpen] = useState(false);
-  const [suggestion, setSuggestion] = useState('');
-  const [isLoadingSuggestion, setIsLoadingSuggestion] = useState(false);
-
   const handleLogin = useCallback(() => {
     setIsLoggedIn(true);
   }, []);
@@ -32,26 +25,6 @@ const App: React.FC = () => {
   const handleLogout = useCallback(() => {
     setIsLoggedIn(false);
   }, []);
-
-  const handleGetSuggestion = async () => {
-    setIsLoadingSuggestion(true);
-    setSuggestionModalOpen(true);
-    try {
-      const productsWithHighStock = products.filter(p => p.stock > 10);
-      if (productsWithHighStock.length === 0) {
-        setSuggestion("No items with high stock to make a suggestion. Add more stock first!");
-      } else {
-        const result = await suggestDailySpecial(productsWithHighStock);
-        setSuggestion(result);
-      }
-    } catch (error) {
-      console.error('Error getting suggestion:', error);
-      setSuggestion('Sorry, I could not come up with a suggestion at this time.');
-    } finally {
-      setIsLoadingSuggestion(false);
-    }
-  };
-
 
   if (!isLoggedIn) {
     return <Login onLogin={handleLogin} />;
@@ -76,18 +49,10 @@ const App: React.FC = () => {
               onUpdateStock={updateStock}
               products={products}
               onResetSales={resetSales}
-              onGetSuggestion={handleGetSuggestion}
-              isSuggestionLoading={isLoadingSuggestion}
             />
           </div>
         </div>
       </main>
-      <SuggestionModal
-        isOpen={isSuggestionModalOpen}
-        onClose={() => setSuggestionModalOpen(false)}
-        suggestion={suggestion}
-        isLoading={isLoadingSuggestion}
-      />
     </div>
   );
 };
